@@ -121,10 +121,7 @@
         create_and_append_question(user, text);
 
         <!-- Here is for API connection part -->
-        var apigClient = apigClientFactory.newClient({
-            accessKey: 'AKIAII26XUYMV64EK6SQ',
-            secretKey: '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',
-        });
+        var apigClient = apigClientFactory.newClient();
         var params = {
             // This is where any modeled request parameters should be added.
             // The key is the parameter name, as it is defined in the API in API Gateway.
