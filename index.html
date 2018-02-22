@@ -1,38 +1,107 @@
 <!DOCTYPE html>
 <html>
-  <head>
-        <!-- Required meta tags -->
+<head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="index.css">
+    <!--<script src="index.js"></script>-->
 
-      <link rel="stylesheet" href="chat.css">
-      <title>chatbot</title>
+    <title>chatbot</title>
+</head>
+<body>
 
 
-  </head>
+<div class="container clearfix">
+        <!--<div class="chat-header clearfix">-->
+            <!--<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg" alt="avatar" />-->
+            <!--<div class="chat-about">-->
+                <!--<div class="chat-with">Chat with Vincent Porter</div>-->
+                <!--<div class="chat-num-messages">already 1 902 messages</div>-->
+            <!--</div>-->
+            <!--<i class="fa fa-star"></i>-->
+        <!--</div> &lt;!&ndash; end chat-header &ndash;&gt;-->
+        <div class="chat-history">
+            <ul>
+                <li dir="rtl">
+                    <div class="message-data align-right" dir="ltr">
+                        <span class="message-data-time" >10:10 AM, Today</span> &nbsp; &nbsp;
+                        <span class="message-data-name" >Olia</span>
+                    </div>
+                    <div class="message other-message float-right" dir="ltr">
+                        Hi Bot, how are you?
+                    </div>
+                </li>
 
-  <body>
-      <<div class="container">
-        <img src="/w3images/bandmember.jpg" alt="Avatar">
-        <p>Hello. How are you today?</p>
-        <span class="time-right">11:00</span>
-      </div>
+                <li>
+                    <div class="message-data">
+                        <span class="message-data-name"><i class="online"></i>Bot</span>
+                        <span class="message-data-time">10:12 AM, Today</span>
+                    </div>
+                    <div class="message my-message">
+                        Fine thank you, and you?
+                    </div>
+                </li>
 
-      <div class="container darker">
-        <img src="/w3images/avatar_g2.jpg" alt="Avatar" class="right">
-        <p>Hey! I'm fine. Thanks for asking!</p>
-        <span class="time-left">11:01</span>
-      </div>
+                <li dir="rtl">
+                    <div class="message-data align-right" dir="ltr">
+                        <span class="message-data-time" >10:14 AM, Today</span> &nbsp; &nbsp;
+                        <span class="message-data-name" >Olia</span>
+                    </div>
+                    <div class="message other-message float-right" dir="ltr">
+                        I am fine too.
+                    </div>
+                </li>
 
-      <div class="container">
-        <img src="/w3images/bandmember.jpg" alt="Avatar">
-        <p>Sweet! So, what do you wanna do today?</p>
-        <span class="time-right">11:02</span>
-      </div>
+                <li>
+                    <div class="message-data">
+                        <span class="message-data-name"><i class="online"></i>Bot</span>
+                        <span class="message-data-time">10:20 AM, Today</span>
+                    </div>
+                    <div class="message my-message">
+                        Actually everything was fine.
+                    </div>
+                </li>
+            </ul>
 
-      <div class="container darker">
-        <img src="/w3images/avatar_g2.jpg" alt="Avatar" class="right">
-        <p>Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
-        <span class="time-left">11:05</span>
-      </div>
-</html>
+        </div> <!-- end chat-history -->
+
+        <div class="chat-message clearfix">
+            <textarea name="message-to-send" id="message-to-send" placeholder ="Type your message" rows="3"></textarea>
+
+            <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
+            <i class="fa fa-file-image-o"></i>
+
+            <button>Send</button>
+
+        </div> <!-- end chat-message -->
+
+    </div> <!-- end chat -->
+
+</div> <!-- end container -->
+
+</body>
+<script id="message-template" type="text/x-handlebars-template">
+    <li dir="rtl">
+        <div class="message-data align-right" dir="ltr">
+            <span class="message-data-time" >{{time}}, Today</span> &nbsp; &nbsp;
+            <span class="message-data-name" >Olia</span>
+        </div>
+        <div class="message other-message float-right" dir="rtl">
+            {{messageOutput}}
+        </div>
+    </li>
+</script>
+
+<script id="message-response-template" type="text/x-handlebars-template">
+    <li>
+        <div class="message-data">
+            <span class="message-data-name"><i class="fa fa-circle online"></i> Bot</span>
+            <span class="message-data-time">{{time}}, Today</span>
+        </div>
+        <div class="message my-message">
+            {{response}}
+        </div>
+    </li>
+</script>
+
