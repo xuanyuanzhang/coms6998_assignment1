@@ -9,20 +9,17 @@
 
     <title>chatbot</title>
 </head>
+
 <body>
-
-
-<div class="container clearfix">
-        <!--<div class="chat-header clearfix">-->
-            <!--<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg" alt="avatar" />-->
-            <!--<div class="chat-about">-->
-                <!--<div class="chat-with">Chat with Vincent Porter</div>-->
-                <!--<div class="chat-num-messages">already 1 902 messages</div>-->
-            <!--</div>-->
-            <!--<i class="fa fa-star"></i>-->
-        <!--</div> &lt;!&ndash; end chat-header &ndash;&gt;-->
+    <div class="container">
+        <div class="chat-header">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg"/>
+            <div class="chat-with">Chat with Vincent Porter</div>
+            <div class="chat-num-messages">already 1 902 messages</div>
+        </div>
+    <!-- end chat-header -->
         <div class="chat-history">
-            <ul>
+            <ul class="tb" id="content">
                 <li dir="rtl">
                     <div class="message-data align-right" dir="ltr">
                         <span class="message-data-time" >10:10 AM, Today</span> &nbsp; &nbsp;
@@ -31,6 +28,7 @@
                     <div class="message other-message float-right" dir="ltr">
                         Hi Bot, how are you?
                     </div>
+
                 </li>
 
                 <li>
@@ -66,19 +64,17 @@
 
         </div> <!-- end chat-history -->
 
-        <div class="chat-message clearfix">
+        <div class="chat-message">
             <textarea name="message-to-send" id="message-to-send" placeholder ="Type your message" rows="3"></textarea>
 
             <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
             <i class="fa fa-file-image-o"></i>
 
-            <button>Send</button>
+            <button onclick="apiCall()">Send</button>
 
         </div> <!-- end chat-message -->
 
     </div> <!-- end chat -->
-
-</div> <!-- end container -->
 
 </body>
 <script id="message-template" type="text/x-handlebars-template">
@@ -105,3 +101,104 @@
     </li>
 </script>
 
+<!-- This part is for API -->
+<script type="text/javascript" src="lib/axios/dist/axios.standalone.js"></script>
+<script type="text/javascript" src="lib/CryptoJS/rollups/hmac-sha256.js"></script>
+<script type="text/javascript" src="lib/CryptoJS/rollups/sha256.js"></script>
+<script type="text/javascript" src="lib/CryptoJS/components/hmac.js"></script>
+<script type="text/javascript" src="lib/CryptoJS/components/enc-base64.js"></script>
+<script type="text/javascript" src="lib/url-template/url-template.js"></script>
+<script type="text/javascript" src="lib/apiGatewayCore/sigV4Client.js"></script>
+<script type="text/javascript" src="lib/apiGatewayCore/apiGatewayClient.js"></script>
+<script type="text/javascript" src="lib/apiGatewayCore/simpleHttpClient.js"></script>
+<script type="text/javascript" src="lib/apiGatewayCore/utils.js"></script>
+<script type="text/javascript" src="apigClient.js"></script>
+
+<script>
+    function apiCall() {
+        var text = document.getElementById("message-to-send").value;
+        var user = "sky-fcuker";
+        create_and_append_question(user, text);
+
+        <!-- Here is for API connection part -->
+        var apigClient = apigClientFactory.newClient({
+            accessKey: 'AKIAII26XUYMV64EK6SQ',
+            secretKey: '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',
+        });
+        var params = {
+            // This is where any modeled request parameters should be added.
+            // The key is the parameter name, as it is defined in the API in API Gateway.
+            param0: '',
+            param1: ''
+        };
+
+        var body = {
+            "messages": [
+                {
+                    "type": "string",
+                    "unstructured": {
+                        "id": user,
+                        "text": text,
+                        "timestamp": new Date()
+                    }
+                }
+            ]
+        };
+        apigClient.chatbotPost(params, body)
+            .then(function(result){
+                console.log(result);
+                receive_and_append_answer(result["data"]["messages"][0]["unstructured"]["text"])
+            }).catch( function(result){
+                console.log(result);
+                receive_and_append_answer("施主何不自己好好想想呢")
+        });
+        document.getElementById("message-to-send").value = "";
+    }
+
+    function create_and_append_question(usr, txt) {
+        var p = document.createElement("li");
+        p.setAttribute("dir", "rtl");
+        var child1 = document.createElement("div");
+        child1.setAttribute("class", "message-data align-right");
+        child1.setAttribute("dir", "ltr");
+        var time = document.createElement("span");
+        time.setAttribute("class", "message-data-time");
+        time.appendChild(document.createTextNode("10:14 AM, Today"));
+        time.innerHTML += '&nbsp; &nbsp;';
+        var user = document.createElement("span");
+        user.setAttribute("class", "message-data-name");
+        user.appendChild(document.createTextNode(usr));
+        child1.appendChild(time);
+        child1.appendChild(user);
+        var child2 = document.createElement("div");
+        child2.setAttribute("class", "message other-message float-right");
+        child2.setAttribute("dir", "ltr");
+        child2.appendChild(document.createTextNode(txt));
+        p.appendChild(child1);
+        p.appendChild(child2);
+        var curr = document.getElementById("content");
+        curr.appendChild(p);
+    }
+
+    function receive_and_append_answer(txt) {
+        var p = document.createElement("li");
+        var child1 = document.createElement("div");
+        child1.setAttribute("class", "message-data");
+        var time = document.createElement("span");
+        time.setAttribute("class", "message-data-time");
+        time.appendChild(document.createTextNode("10:14 AM, Today"));
+        var bot = document.createElement("span");
+        bot.setAttribute("class", "message-data-name");
+        bot.appendChild(document.createTextNode("Bot"));
+        child1.appendChild(bot);
+        child1.appendChild(time);
+        var child2 = document.createElement("div");
+        child2.setAttribute("class", "message my-message");
+        child2.appendChild(document.createTextNode(txt));
+        p.appendChild(child1);
+        p.appendChild(child2);
+        var curr = document.getElementById("content");
+        curr.appendChild(p);
+    }
+</script>
+</html>

@@ -9,7 +9,7 @@ body {
 
 .container {
     margin: 0 auto;
-    width: 750px;
+    width: 1000px;
     background: #444753;
     border-radius: 5px;
 }
@@ -71,26 +71,23 @@ img {
 
 .chat-header {
     padding: 20px;
-    border-bottom: 2px solid white;
+    /*border-bottom: 2px solid white;*/
 }
 
 img {
     float: left;
 }
 
-.chat-about {
-    float: left;
-    padding-left: 10px;
-    margin-top: 6px;
-}
-
 .chat-with {
+    padding: 5px;
     font-weight: bold;
     font-size: 16px;
+    margin-left: 10px;
 }
 
 .chat-num-messages {
     color: #92959E;
+    margin-left: 10px;
 }
 
 .fa-star {
@@ -101,7 +98,7 @@ img {
 }
 
 .chat-history {
-    padding: 30px 30px 20px;
+    padding: 20px 20px 20px;
     border-bottom: 2px solid white;
     overflow-y: scroll;
     height: 575px;
@@ -147,11 +144,6 @@ img {
     background: #94C2ED;
 }
 
-.after {
-     border-bottom-color: #94C2ED;
-     left: 93%;
-}
-
 .chat-message {
     padding: 30px;
 }
@@ -185,23 +177,6 @@ button {
     background: #F2F5F8;
 }
 
-.online, .offline, .me {
-    margin-right: 3px;
-    font-size: 10px;
-}
-
-.online {
-    color:#86BB71;
-}
-
-.offline {
-    color:#E38968;
-}
-
-.me {
-    color:#94C2ED;
-}
-
 .align-left {
     text-align: left;
 }
@@ -213,4 +188,3 @@ button {
 .float-right {
     float: right;
 }
-
