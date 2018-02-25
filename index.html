@@ -117,17 +117,15 @@
 <script>
     function apiCall() {
         var text = document.getElementById("message-to-send").value;
-        var user = "sky-fcuker";
+        var user = "sky";
         create_and_append_question(user, text);
 
         <!-- Here is for API connection part -->
-        var apigClient = apigClientFactory.newClient();
-        var params = {
-            // This is where any modeled request parameters should be added.
-            // The key is the parameter name, as it is defined in the API in API Gateway.
-            param0: '',
-            param1: ''
-        };
+        var apigClient = apigClientFactory.newClient({
+          accessKey: 'AKIAJ6JIXWR5HE7JOTNQ',
+          secretKey: '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'
+        });
+        //var params ;
 
         var body = {
             "messages": [
@@ -136,18 +134,31 @@
                     "unstructured": {
                         "id": user,
                         "text": text,
-                        "timestamp": new Date()
+                        "timestamp": "2010-02-22"
                     }
                 }
             ]
         };
-        apigClient.chatbotPost(params, body)
+
+        var additionalParams = {
+          // If there are any unmodeled query parameters or headers that must be
+          //   sent with the request, add them here.
+          headers: {
+            param0: '',
+            param1: ''
+          },
+          queryParams: {
+            param0: '',
+            param1: ''
+          }
+        };
+        apigClient.chatbotPost(body)
             .then(function(result){
                 console.log(result);
                 receive_and_append_answer(result["data"]["messages"][0]["unstructured"]["text"])
             }).catch( function(result){
                 console.log(result);
-                receive_and_append_answer("施主何不自己好好想想呢")
+                receive_and_append_answer("api call error")
         });
         document.getElementById("message-to-send").value = "";
     }
