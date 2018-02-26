@@ -210,12 +210,12 @@
 		var authData = {
 			ClientId : '5k64r422vq6akb8isikqol47t', // Your client id here
 			AppWebDomain : 'cc-chatbot.auth.us-east-2.amazoncognito.com', // Exclude the "https://" part. 
-			TokenScopesArray : ['openid','email'], // like ['openid','email','phone']...
+			TokenScopesArray : [], // like ['openid','email','phone']...
 			RedirectUriSignIn : 'https://s3.us-east-2.amazonaws.com/chatbotsignin/index.html',
 			RedirectUriSignOut : 'https://s3.us-east-2.amazonaws.com/chatbotsignin/index.html',
 			IdentityProvider : '', 
 	                UserPoolId : 'us-east-2_nUjbUv90C', 
-	                AdvancedSecurityDataCollectionFlag : false
+	                AdvancedSecurityDataCollectionFlag : false	
 		};
 		var auth = new AWSCognito.CognitoIdentityServiceProvider.CognitoAuth(authData);
 		auth.userhandler = {
@@ -224,7 +224,10 @@
 			//* E.g.
 			onSuccess: function(result) {
 				console.log("Sign in success");
+				console.log(result);
+
 				showSignedIn(result);
+				
 				//config aws credentials
 				AWS.config.update({
 				  region: 'us-east-2'
@@ -296,7 +299,7 @@
 		};
 		console.log("ssssss")
 		// The default response_type is "token", uncomment the next line will make it be "code".
-		// auth.useCodeGrantFlow();
+		//auth.useCodeGrantFlow();
 		return auth;
 	}
 	</script>
