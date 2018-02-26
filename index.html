@@ -23,7 +23,7 @@
 
         </div>
     <!-- end chat-header -->
-        <div class="chat-history">
+        <div id="chat_history" class="chat-history">
             <ul class="tb" id="content">
                 <!--<li dir="rtl">-->
                     <!--<div class="message-data align-right" dir="ltr">-->
@@ -98,6 +98,7 @@
 
 <script>
     var apigClient;
+    var enter_pressed = false;
 
     function alert_function(ind) {
         if (ind === 1)
@@ -109,15 +110,21 @@
         if (state_val === "Sign In") {
             alert_function(1);
             document.getElementById("message-to-send").value = "";
+            enter_pressed = false;
             return;
         }
         // if not sign in, do not do anything
         var text = document.getElementById("message-to-send").value;
-        console.log(text.length);
         if (!text || text.length===0 || text==="\n") {
             document.getElementById("message-to-send").value = "";
+            enter_pressed = false;
             return;
         }
+
+        if (enter_pressed) {
+            text = text.slice(0, -1);
+        }
+
         var user = "Anonymous";
         create_and_append_question(user, text);
 
@@ -148,6 +155,10 @@
                 receive_and_append_answer("api call error")
         });
         document.getElementById("message-to-send").value = "";
+        enter_pressed = false;
+
+        var objDiv = document.getElementById("chat_history");
+        objDiv.scrollTop = objDiv.scrollHeight;
     }
 
     function create_and_append_question(usr, txt) {
@@ -198,6 +209,7 @@
 
     $("#message-to-send").keyup(function(event) {
         if (event.keyCode === 13) {
+            enter_pressed = true;
             $("#send_btn").click();
         }
     });
