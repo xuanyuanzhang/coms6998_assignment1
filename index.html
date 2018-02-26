@@ -16,7 +16,7 @@
 <body onload="onLoad()">
     <div class="container">
         <div class="chat-header">
-            <div id="signin_message" class="chat-with">please sign in to chat with our bot~</div>
+            <div id="signin_message" class="chat-with">Welcome!</div>
             <div class="chat-num-messages">Already 4 messages.
                 <button id="signin_btn">Sign In</button>
             </div>
@@ -99,7 +99,16 @@
 <script>
     var apigClient;
 
+    function alert_function() {
+        alert("Please sign in to communicate with our chatbot");
+    }
+
     function apiCall() {
+        var state_val = document.getElementById('signin_btn').innerHTML;
+        if (state_val === "Sign In") {
+            alert_function();
+            return;
+        }
         // if not sign in, do not do anything
         var text = document.getElementById("message-to-send").value;
         var user = "Anonymous";
