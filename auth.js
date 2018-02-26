@@ -9,14 +9,13 @@ function onLoad() {
 }
 
 function userButton(auth) {
-	var state = document.getElementById('signInButton').innerHTML;
+	var state = document.getElementById('signin_btn').innerHTML;
 	if (state === "Sign Out") {
 		document.getElementById("signin_btn").innerHTML = "Sign In";
 		auth.signOut();
 		showSignedOut();
 	} else {
 		auth.getSession();
-		showSignedIn()
 	}
 }
 
@@ -37,8 +36,8 @@ function initCognitoSDK() {
 		ClientId : '5k64r422vq6akb8isikqol47t', // Your client id here
 		AppWebDomain : 'cc-chatbot.auth.us-east-2.amazoncognito.com', // Exclude the "https://" part. 
 		TokenScopesArray : ['openid','email'], // like ['openid','email','phone']...
-		RedirectUriSignIn : 'https://s3.us-east-2.amazonaws.com/chatbotsignin/index.html',
-		RedirectUriSignOut : 'https://s3.us-east-2.amazonaws.com/chatbotsignin/index.html',
+		RedirectUriSignIn : 'https://s3.amazonaws.com/cc-chatbot2/index.html',
+		RedirectUriSignOut : 'https://s3.amazonaws.com/cc-chatbot2/index.html',
 		IdentityProvider : '', 
                 UserPoolId : 'us-east-2_nUjbUv90C', 
                 AdvancedSecurityDataCollectionFlag : false
@@ -50,7 +49,7 @@ function initCognitoSDK() {
 		//* E.g.
 		onSuccess: function(result) {
 			console.log("Sign in success");
-			
+			showSignedIn()
 			//config aws credentials
 			AWS.config.update({
 			  region: 'us-east-2'
@@ -88,6 +87,7 @@ function initCognitoSDK() {
 		          sessionToken: sessionToken,
 		          region: 'us-east-2'
 		        });
+			});
 		        
 
 		},
