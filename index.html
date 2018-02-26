@@ -8,14 +8,75 @@
     <!--<script src="index.js"></script>-->
 
     <title>chatbot</title>
+    <style>
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            padding-top: 60px;
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #C5DDEB;
+            margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+            border: 1px solid #888;
+            height: 50%;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+        .animate {
+            -webkit-animation: animatezoom 0.6s;
+            animation: animatezoom 0.6s
+        }
+
+        @-webkit-keyframes animatezoom {
+            from {-webkit-transform: scale(0)}
+            to {-webkit-transform: scale(1)}
+        }
+
+        @keyframes animatezoom {
+            from {transform: scale(0)}
+            to {transform: scale(1)}
+        }
+
+    </style>
 </head>
 
 <body>
+    <div id="id01" class="modal">
+        <div class="modal-content animate">
+            <div class="container" style="width:800px; adding-top: 20px; border: 10px">
+                <label for="uname"><b>Username</b></label>
+                <input type="text" placeholder="Enter Username" name="uname" required>
+
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" required>
+
+                <button onclick="submit()">Login</button>
+            </div>
+
+            <div class="container" style="background-color:#C5DDEB; width:800px; padding-top: 20px;">
+                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="chat-header">
-            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg"/>
-            <div class="chat-with">Chat with Vincent Porter</div>
-            <div class="chat-num-messages">already 1 902 messages</div>
+            <!--<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg"/>-->
+            <div id="signin_message" class="chat-with">please sign in to chat with our bot~</div>
+            <div class="chat-num-messages">Already 4 messages.
+                <button id="signin_btn" onclick="document.getElementById('id01').style.display='block'" style="width:auto;"> sign in </button>
+            </div>
+
         </div>
     <!-- end chat-header -->
         <div class="chat-history">
@@ -77,29 +138,6 @@
     </div> <!-- end chat -->
 
 </body>
-<script id="message-template" type="text/x-handlebars-template">
-    <li dir="rtl">
-        <div class="message-data align-right" dir="ltr">
-            <span class="message-data-time" >{{time}}, Today</span> &nbsp; &nbsp;
-            <span class="message-data-name" >Olia</span>
-        </div>
-        <div class="message other-message float-right" dir="rtl">
-            {{messageOutput}}
-        </div>
-    </li>
-</script>
-
-<script id="message-response-template" type="text/x-handlebars-template">
-    <li>
-        <div class="message-data">
-            <span class="message-data-name"><i class="fa fa-circle online"></i> Bot</span>
-            <span class="message-data-time">{{time}}, Today</span>
-        </div>
-        <div class="message my-message">
-            {{response}}
-        </div>
-    </li>
-</script>
 
 <!-- This part is for API -->
 <script type="text/javascript" src="lib/axios/dist/axios.standalone.js"></script>
@@ -115,12 +153,47 @@
 <script type="text/javascript" src="apigClient.js"></script>
 
 <script>
+    var apigClient = apigClientFactory.newClient({
+        accessKey: '',
+        secretKey: '',
+        sessionToken: '',
+        region: ''
+    });
+    var sign_in = false;
+
+    var modal = document.getElementById('id01');
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    function signIn(access_Key, secret_Key, session_Token, Region) {
+        apigClient = apigClientFactory.newClient({
+            accessKey: access_Key,
+            secretKey: secret_Key,
+            sessionToken: session_Token,
+            region: Region
+        });
+        sign_in = true;
+        document.getElementById("signin_message").textContent= "Welcome!";
+    }
+
     function apiCall() {
+        // if not sign in, do not do anything
+        if (!sign_in) {
+            return;
+        }
+
         var text = document.getElementById("message-to-send").value;
-        var user = "sky";
+        var user = "Anonymous";
         create_and_append_question(user, text);
 
         <!-- Here is for API connection part -->
+
+
         var apigClient = apigClientFactory.newClient({
           accessKey: 'AKIAJ6JIXWR5HE7JOTNQ',
           secretKey: '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'
