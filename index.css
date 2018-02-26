@@ -9,13 +9,10 @@ body {
 
 .container {
     margin: 0 auto;
-    width: 1000px;
+    width: 80%;
+    height: 80%;
     background: #444753;
     border-radius: 5px;
-}
-
-.search {
-    padding: 20px;
 }
 
 input {
@@ -28,31 +25,13 @@ input {
     font-size: 14px;
 }
 
-.fa-search {
-    position: relative;
-    left: -25px;
-}
-
 ul {
+    min-height: 35vh;
     padding: 20px;
-    height: 770px;
 }
 
 li {
     padding-bottom: 20px;
-}
-
-img {
-    float: left;
-}
-
-.about {
-    float: left;
-    margin-top: 8px;
-}
-
-.about {
-    padding-left: 8px;
 }
 
 .status {
@@ -71,11 +50,6 @@ img {
 
 .chat-header {
     padding: 20px;
-    /*border-bottom: 2px solid white;*/
-}
-
-img {
-    float: left;
 }
 
 .chat-with {
@@ -89,18 +63,10 @@ img {
     margin-left: 10px;
 }
 
-.fa-star {
-    float: right;
-    color: #D8DADF;
-    font-size: 20px;
-    margin-top: 12px;
-}
-
 .chat-history {
     padding: 20px 20px 20px;
     border-bottom: 2px solid white;
     overflow-y: scroll;
-    height: 575px;
 }
 
 .message-data {
@@ -162,7 +128,6 @@ textarea {
     font-size: 16px;
     color: gray;
     cursor: pointer;
-
 }
 
 button {
