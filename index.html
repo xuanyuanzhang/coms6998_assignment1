@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="index.css">
-    <!--<script src="index.js"></script>-->
+    <script src="auth.js"></script>
 
     <title>chatbot</title>
     <style>
@@ -50,31 +50,31 @@
     </style>
 </head>
 
-<body>
-    <div id="id01" class="modal">
-        <div class="modal-content animate">
-            <div class="container" style="width:800px; adding-top: 20px; border: 10px">
-                <label for="uname"><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" name="uname" required>
+<body onload="onLoad()">
+    <!--<div id="id01" class="modal">-->
+        <!--<div class="modal-content animate">-->
+            <!--<div class="container" style="width:70%; padding: 20px">-->
+                <!--<label for="uname"><b>Username</b></label>-->
+                <!--<input type="text" placeholder="Enter Username" name="uname" required>-->
 
-                <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="psw" required>
+                <!--<label for="psw"><b>Password</b></label>-->
+                <!--<input type="password" placeholder="Enter Password" name="psw" required>-->
 
-                <button onclick="submit()">Login</button>
-            </div>
+                <!--<button onclick="submit()">Login</button>-->
+            <!--</div>-->
 
-            <div class="container" style="background-color:#C5DDEB; width:800px; padding-top: 20px;">
-                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-            </div>
-        </div>
-    </div>
+            <!--<div class="container" style="background-color:#C5DDEB; width:70%;">-->
+                <!--<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
 
     <div class="container">
         <div class="chat-header">
             <!--<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg"/>-->
             <div id="signin_message" class="chat-with">please sign in to chat with our bot~</div>
             <div class="chat-num-messages">Already 4 messages.
-                <button id="signin_btn" onclick="document.getElementById('id01').style.display='block'" style="width:auto;"> sign in </button>
+                <button id="signin_btn">Sign In</button>
             </div>
 
         </div>
@@ -153,12 +153,7 @@
 <script type="text/javascript" src="apigClient.js"></script>
 
 <script>
-    var apigClient = apigClientFactory.newClient({
-        accessKey: '',
-        secretKey: '',
-        sessionToken: '',
-        region: ''
-    });
+    var apigClient;
     var sign_in = false;
 
     var modal = document.getElementById('id01');
