@@ -25,46 +25,46 @@
     <!-- end chat-header -->
         <div class="chat-history">
             <ul class="tb" id="content">
-                <li dir="rtl">
-                    <div class="message-data align-right" dir="ltr">
-                        <span class="message-data-time" >10:10 AM, Today</span> &nbsp; &nbsp;
-                        <span class="message-data-name" >Olia</span>
-                    </div>
-                    <div class="message other-message float-right" dir="ltr">
-                        Hi Bot, how are you?
-                    </div>
+                <!--<li dir="rtl">-->
+                    <!--<div class="message-data align-right" dir="ltr">-->
+                        <!--<span class="message-data-time" >10:10 AM, Today</span> &nbsp; &nbsp;-->
+                        <!--<span class="message-data-name" >Olia</span>-->
+                    <!--</div>-->
+                    <!--<div class="message other-message float-right" dir="ltr">-->
+                        <!--Hi Bot, how are you?-->
+                    <!--</div>-->
 
-                </li>
+                <!--</li>-->
 
-                <li>
-                    <div class="message-data">
-                        <span class="message-data-name"><i class="online"></i>Bot</span>
-                        <span class="message-data-time">10:12 AM, Today</span>
-                    </div>
-                    <div class="message my-message">
-                        Fine thank you, and you?
-                    </div>
-                </li>
+                <!--<li>-->
+                    <!--<div class="message-data">-->
+                        <!--<span class="message-data-name"><i class="online"></i>Bot</span>-->
+                        <!--<span class="message-data-time">10:12 AM, Today</span>-->
+                    <!--</div>-->
+                    <!--<div class="message my-message">-->
+                        <!--Fine thank you, and you?-->
+                    <!--</div>-->
+                <!--</li>-->
 
-                <li dir="rtl">
-                    <div class="message-data align-right" dir="ltr">
-                        <span class="message-data-time" >10:14 AM, Today</span> &nbsp; &nbsp;
-                        <span class="message-data-name" >Olia</span>
-                    </div>
-                    <div class="message other-message float-right" dir="ltr">
-                        I am fine too.
-                    </div>
-                </li>
+                <!--<li dir="rtl">-->
+                    <!--<div class="message-data align-right" dir="ltr">-->
+                        <!--<span class="message-data-time" >10:14 AM, Today</span> &nbsp; &nbsp;-->
+                        <!--<span class="message-data-name" >Olia</span>-->
+                    <!--</div>-->
+                    <!--<div class="message other-message float-right" dir="ltr">-->
+                        <!--I am fine too.-->
+                    <!--</div>-->
+                <!--</li>-->
 
-                <li>
-                    <div class="message-data">
-                        <span class="message-data-name"><i class="online"></i>Bot</span>
-                        <span class="message-data-time">10:20 AM, Today</span>
-                    </div>
-                    <div class="message my-message">
-                        Actually everything was fine.
-                    </div>
-                </li>
+                <!--<li>-->
+                    <!--<div class="message-data">-->
+                        <!--<span class="message-data-name"><i class="online"></i>Bot</span>-->
+                        <!--<span class="message-data-time">10:20 AM, Today</span>-->
+                    <!--</div>-->
+                    <!--<div class="message my-message">-->
+                        <!--Actually everything was fine.-->
+                    <!--</div>-->
+                <!--</li>-->
             </ul>
 
         </div> <!-- end chat-history -->
@@ -75,7 +75,7 @@
             <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
             <i class="fa fa-file-image-o"></i>
 
-            <button onclick="apiCall()">Send</button>
+            <button id="send_btn" onclick="apiCall()">Send</button>
 
         </div> <!-- end chat-message -->
 
@@ -99,18 +99,25 @@
 <script>
     var apigClient;
 
-    function alert_function() {
-        alert("Please sign in to communicate with our chatbot");
+    function alert_function(ind) {
+        if (ind === 1)
+            alert("Please sign in to communicate with our chatbot");
     }
 
     function apiCall() {
         var state_val = document.getElementById('signin_btn').innerHTML;
         if (state_val === "Sign In") {
-            alert_function();
+            alert_function(1);
+            document.getElementById("message-to-send").value = "";
             return;
         }
         // if not sign in, do not do anything
         var text = document.getElementById("message-to-send").value;
+        console.log(text.length);
+        if (!text || text.length===0 || text==="\n") {
+            document.getElementById("message-to-send").value = "";
+            return;
+        }
         var user = "Anonymous";
         create_and_append_question(user, text);
 
@@ -134,10 +141,10 @@
         var additionalParams = '';
         apigClient.chatbotPost(params, body, additionalParams)
             .then(function(result){
-                console.log(result);
+                // console.log(result);
                 receive_and_append_answer(result["data"]["messages"][0]["unstructured"]["text"])
             }).catch( function(result){
-                console.log(result);
+                // console.log(result);
                 receive_and_append_answer("api call error")
         });
         document.getElementById("message-to-send").value = "";
@@ -188,5 +195,11 @@
         var curr = document.getElementById("content");
         curr.appendChild(p);
     }
+
+    $("#message-to-send").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#send_btn").click();
+        }
+    });
 </script>
 </html>
