@@ -33,13 +33,13 @@ function showSignedIn() {
 // Initialize a cognito auth object.
 function initCognitoSDK() {
 	var authData = {
-		ClientId : '5k64r422vq6akb8isikqol47t', // Your client id here
-		AppWebDomain : 'cc-chatbot.auth.us-east-2.amazoncognito.com', // Exclude the "https://" part. 
+		ClientId : '7lqev3j046c48cbrdi4sm0grri', // Your client id here
+		AppWebDomain : 'chatbot2.auth.us-east-2.amazoncognito.com', // Exclude the "https://" part. 
 		TokenScopesArray : ['openid','email'], // like ['openid','email','phone']...
 		RedirectUriSignIn : 'https://s3.amazonaws.com/cc-chatbot2/index.html',
 		RedirectUriSignOut : 'https://s3.amazonaws.com/cc-chatbot2/index.html',
 		IdentityProvider : '', 
-                UserPoolId : 'us-east-2_nUjbUv90C', 
+                UserPoolId : 'us-east-2_rNJ9gPN6P', 
                 AdvancedSecurityDataCollectionFlag : false
 	};
 	var auth = new AWSCognito.CognitoIdentityServiceProvider.CognitoAuth(authData);
@@ -58,7 +58,7 @@ function initCognitoSDK() {
 			AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 		      IdentityPoolId: 'us-east-2:4537d29a-34eb-4bf3-80cc-479e176669e8',
 		      Logins: {
-		        'cognito-idp.us-east-2.amazonaws.com/us-east-2_nUjbUv90C': result.getIdToken().getJwtToken()
+		        'cognito-idp.us-east-2.amazonaws.com/us-east-2_rNJ9gPN6P': result.getIdToken().getJwtToken()
 		      }
 		    });
 		    //refresh credentials
@@ -96,6 +96,7 @@ function initCognitoSDK() {
 		}
 	};
 	// The default response_type is "token", uncomment the next line will make it be "code".
-	//auth.useCodeGrantFlow();
+	auth.useCodeGrantFlow();
+	console.log("use code grant flow")
 	return auth;
 }
