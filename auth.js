@@ -56,7 +56,7 @@ function initCognitoSDK() {
 			});
 
 			AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-		      IdentityPoolId: 'us-east-2:4537d29a-34eb-4bf3-80cc-479e176669e8',
+		      IdentityPoolId: 'us-east-2:6bfc2e6c-3c2c-4a53-bb04-5ea5b492f94e',
 		      Logins: {
 		        'cognito-idp.us-east-2.amazonaws.com/us-east-2_rNJ9gPN6P': result.getIdToken().getJwtToken()
 		      }
