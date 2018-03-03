@@ -17,31 +17,23 @@
     <div class="container">
         <div class="chat-header">
             <div id="signin_message" class="chat-with">Welcome!</div>
-            <div class="chat-num-messages">Already 4 messages.
-                <button id="signin_btn">Sign In</button>
-            </div>
+            <!--<div class="chat-num-messages">-->
+                <!--<div id="num_of_messages">Already 0 messages.</div>-->
+                <!--<button id="signin_btn">Sign In</button>-->
+            <!--</div>-->
+            <!--<div id="num_of_messages">Already 0 messages.</div>-->
+            <button id="signin_btn">Sign In</button>
 
         </div>
-    <!-- end chat-header -->
         <div id="chat_history" class="chat-history">
             <ul class="tb" id="content">
-
             </ul>
-
         </div> <!-- end chat-history -->
-
         <div class="chat-message">
             <textarea name="message-to-send" id="message-to-send" placeholder ="Type your message" rows="3"></textarea>
-
-            <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
-            <i class="fa fa-file-image-o"></i>
-
             <button id="send_btn" onclick="apiCall()">Send</button>
-
         </div> <!-- end chat-message -->
-
     </div> <!-- end chat -->
-
 </body>
 
 <!-- This part is for API -->
@@ -60,31 +52,38 @@
 <script>
     var apigClient;
     var enter_pressed = false;
+    var text_count = 0;
 
     function alert_function(ind) {
         if (ind === 1)
             alert("Please sign in to communicate with our chatbot");
     }
 
-    function apiCall() {
-        var state_val = document.getElementById('signin_btn').innerHTML;
-        if (state_val === "Sign In") {
-            alert_function(1);
-            document.getElementById("message-to-send").value = "";
-            enter_pressed = false;
-            return;
-        }
-        // if not sign in, do not do anything
-        var text = document.getElementById("message-to-send").value;
-        if (!text || text.length===0 || text==="\n") {
-            document.getElementById("message-to-send").value = "";
-            enter_pressed = false;
-            return;
-        }
+    function message_update() {
+        console.log(document.getElementById("num_of_messages").textContent);
+        document.getElementById("num_of_messages").textContent = "Already " + text_count.toString() + " messages";
+    }
 
-        if (enter_pressed) {
-            text = text.slice(0, -1);
-        }
+    function apiCall() {
+        // var state_val = document.getElementById('signin_btn').innerHTML;
+        // if (state_val === "Sign In") {
+        //     alert_function(1);
+        //     document.getElementById("message-to-send").value = "";
+        //     enter_pressed = false;
+        //     return;
+        // }
+        // // if not sign in, do not do anything
+        // var text = document.getElementById("message-to-send").value;
+        // if (!text || text.length===0 || text==="\n") {
+        //     document.getElementById("message-to-send").value = "";
+        //     enter_pressed = false;
+        //     return;
+        // }
+        message_update();
+        var text = document.getElementById("message-to-send").value;
+        // if (enter_pressed) {
+        //     text = text.slice(0, -1);
+        // }
 
         var user = "Anonymous";
         create_and_append_question(user, text);
@@ -145,6 +144,8 @@
         p.appendChild(child2);
         var curr = document.getElementById("content");
         curr.appendChild(p);
+        text_count += 1;
+        // message_update();
     }
 
     function receive_and_append_answer(txt) {
@@ -166,6 +167,8 @@
         p.appendChild(child2);
         var curr = document.getElementById("content");
         curr.appendChild(p);
+        text_count += 1;
+        // message_update();
     }
 
     $("#message-to-send").keyup(function(event) {
