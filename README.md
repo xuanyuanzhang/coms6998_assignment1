@@ -1,5 +1,5 @@
 #COMS 6998 Cloud Computing and Big Data
-Team info: Xinyuan Zhang, Xuanyuan Zhang, Wanlin Li, Hanyu Li
+Team info: Xinyuan Zhang, Xuanyuan Zhang, Linli Wan, Yuli Han
 
 Link: https://s3.amazonaws.com/cc-chatbot2/index.html
 
