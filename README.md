@@ -1,3 +1,23 @@
+#COMS 6998 Cloud Computing and Big Data
+Team info: Xinyuan Zhang, Xuanyuan Zhang, Linli Wan, Yuli Han
+
+Link: https://s3.amazonaws.com/cc-chatbot2/index.html
+
+General Description: This is a demo for chat bot utilizing amazon services, including S3, Lambda and Cognito.
+
+The front end is pure js with DOM functions interacting with backend API. We choose not to use any framework because the front end is not 
+complicated.
+
+The backend is built following instructions of this assignment. There are currently 2 commands working:
+
+    - Hello
+    - Thank you
+    
+Otherwise, it will return a default message saying it does not get what the user is trying to say.
+
+To use the chatbot, client has to sign in by simply click on the "SIGNIN" button on top right of the user interface.
+It redirects to the login and sign up page already provided by amazon.
+
 # Prerequisites
 For the JavaScript SDK to work your APIs need to support CORS. The Amazon API Gateway developer guide explains how to [setup CORS for an endpoint]().
 The generated SDK depends on third-party libraries. Include all of the scripts in your webpage
