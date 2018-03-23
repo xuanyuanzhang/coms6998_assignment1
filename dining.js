@@ -1,5 +1,5 @@
 'use strict';
-
+var AWS = require('aws-sdk');
  /**
   * This sample demonstrates an implementation of the Lex Code Hook Interface
   * in order to serve a sample bot which manages orders for flowers.
@@ -100,7 +100,7 @@ function validateDining(city, cuisine, numberOfPeople, date, time, phone) {
     
     if(city) {
         if(!isValidCity(city)) {
-            return buildValidationResult(false, 'city', 'We currently do not support ${city}.  Can you try a different city?');
+            return buildValidationResult(false, 'city', `We currently do not support ${city}.  Can you try a different city?`);
         }
     }
     if (cuisine) {
@@ -147,6 +147,54 @@ function validateDining(city, cuisine, numberOfPeople, date, time, phone) {
     }
     return buildValidationResult(true, null, null);
 }
+
+function sendMessageToSqs(location,cuisine,numberOfPeople,date,time,phone){
+    // Load the AWS SDK for Node.js
+    var QUEUE_URL='https://sqs.us-east-1.amazonaws.com/889429743747/myQueue';
+    // Set the region 
+
+    // Create an SQS service object
+    var sqs = new AWS.SQS({region : 'us-east-1'});
+    var params = {
+         DelaySeconds: 10,
+         MessageAttributes: {
+            "Location": {
+                DataType: "String",
+                StringValue: location
+            },
+            "Cuision": {
+                DataType: "String",
+                StringValue: cuisine
+            },
+            "NumberOfPeople": {
+                DataType: "Number",
+                StringValue: numberOfPeople
+            },
+            "Date": {
+                DataType: "String",
+                StringValue: date
+            },
+            "Time": {
+                DataType: "String",
+                StringValue: time
+            },
+            "Phone": {
+                DataType: "String",
+                StringValue: phone
+            }
+        },
+        MessageBody: "Dining information.",
+        QueueUrl: QUEUE_URL
+    };
+
+    sqs.sendMessage(params, function(err, data) {
+        if (err) {
+            console.log("Error", err);
+        } else {
+            console.log("Success", data.MessageId);
+        }
+    });
+}
 // --------------- Functions that control the bot's behavior -----------------------
 
 /**
@@ -180,7 +228,7 @@ function diningSuggestions(intentRequest, callback) {
         callback(delegate(outputSessionAttributes, intentRequest.currentIntent.slots));
         return;
     }
-
+    sendMessageToSqs(location,cuisine,numberOfPeople,date,time,phone);
     callback(close(intentRequest.sessionAttributes, 'Fulfilled',
     { contentType: 'PlainText', content: 'You’re all set. Expect my recommendations shortly! Have a good day.' }));
 }
