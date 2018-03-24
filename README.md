@@ -91,7 +91,7 @@ To use an API Key with the client SDK you can pass the key as a parameter to the
 ```
 var apigClient = apigClientFactory.newClient({
     apiKey: 'API_KEY'
-});
+}); 
 ```
 
 
