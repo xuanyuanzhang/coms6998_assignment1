@@ -206,7 +206,7 @@ function sendMessageToSqs(location,cuisine,numberOfPeople,date,time,phone){
  */
  
 function diningSuggestions(intentRequest, callback) {
-    const location = intentRequest.currentIntent.slots.location;
+    const location = intentRequest.currentIntent.slots.city;
     const cuisine = intentRequest.currentIntent.slots.cuisine;
     const numberOfPeople = intentRequest.currentIntent.slots.numberOfPeople
     const date = intentRequest.currentIntent.slots.date;
