@@ -105,7 +105,7 @@ function validateDining(city, cuisine, numberOfPeople, date, time, phone) {
     }
     if (cuisine) {
         if(!isValidCuisine(cuisine)) {
-            return buildValidationResult(false, 'cuisine', `We do not have ${cuisine} food, would you like to try a different cuisine?  Our most popular flowers are Chinese`);
+            return buildValidationResult(false, 'cuisine', `We do not have ${cuisine} food, would you like to try a different cuisine?  Our most popular one is Chinese`);
         }
     }
     
