@@ -50,18 +50,18 @@ function delegate(sessionAttributes, slots) {
 
 // ---------------- Helper Functions --------------------------------------------------
 
-function parseLocalDate(date) {
+function parseLocalDate(date, hh, mm, ss) {
     /**
      * Construct a date object in the local timezone by parsing the input date string, assuming a YYYY-MM-DD format.
      * Note that the Date(dateString) constructor is explicitly avoided as it may implicitly assume a UTC timezone.
      */
     const dateComponents = date.split(/\-/);
-    return new Date(dateComponents[0], dateComponents[1] - 1, dateComponents[2]);
+    return new Date(dateComponents[0], dateComponents[1] - 1, dateComponents[2], hh, mm, ss);
 }
 
 function isValidDate(date) {
     try {
-        return !(isNaN(parseLocalDate(date).getTime()));
+        return !(isNaN(parseLocalDate(date, 23, 59, 59).getTime()));
     } catch (err) {
         return false;
     }
@@ -119,8 +119,8 @@ function validateDining(city, cuisine, numberOfPeople, date, time, phone) {
         if (!isValidDate(date)) {
             return buildValidationResult(false, 'date', 'I did not understand that, what date would you like to dine?');
         }
-        if (parseLocalDate(date) < new Date()) {
-            return buildValidationResult(false, 'date', 'You can choose from tomorrow onwards.  What day would you like to dine?');
+        if (parseLocalDate(date, 23,59,59) < new Date()) {
+            return buildValidationResult(false, 'date', 'You can choose from today onwards.  What day would you like to dine?');
         }
     }
     if (time) {
@@ -137,6 +137,9 @@ function validateDining(city, cuisine, numberOfPeople, date, time, phone) {
         if (hour < 9 || hour > 23) {
             // Outside of business hours
             return buildValidationResult(false, 'time', 'The business hours are from 9AM to 11PM. Can you specify a time during this range?');
+        }
+        if (parseLocalDate(date, hour, minute, 0) < new Date()) {
+            return buildValidationResult(false, 'time', 'Can you specify a time later than current time?');
         }
     }
     
@@ -208,12 +211,12 @@ function sendMessageToSqs(location,cuisine,numberOfPeople,date,time,phone){
 function diningSuggestions(intentRequest, callback) {
     const location = intentRequest.currentIntent.slots.city;
     const cuisine = intentRequest.currentIntent.slots.cuisine;
-    const numberOfPeople = intentRequest.currentIntent.slots.numberOfPeople
+    const numberOfPeople = intentRequest.currentIntent.slots.numberOfPeople;
     const date = intentRequest.currentIntent.slots.date;
     const time = intentRequest.currentIntent.slots.time;
     const phone = intentRequest.currentIntent.slots.phone;
     const source = intentRequest.invocationSource;
-
+     
     if (source === 'DialogCodeHook') {
         // Perform basic validation on the supplied input slots.  Use the elicitSlot dialog action to re-prompt for the first violation detected.
         const slots = intentRequest.currentIntent.slots;
@@ -223,11 +226,11 @@ function diningSuggestions(intentRequest, callback) {
             callback(elicitSlot(intentRequest.sessionAttributes, intentRequest.currentIntent.name, slots, validationResult.violatedSlot, validationResult.message));
             return;
         }
-        
         const outputSessionAttributes = intentRequest.sessionAttributes || {};
         callback(delegate(outputSessionAttributes, intentRequest.currentIntent.slots));
         return;
     }
+    
     sendMessageToSqs(location,cuisine,numberOfPeople,date,time,phone);
     callback(close(intentRequest.sessionAttributes, 'Fulfilled',
     { contentType: 'PlainText', content: 'You’re all set. Expect my recommendations shortly! Have a good day.' }));
