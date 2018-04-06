@@ -1,4 +1,4 @@
-onst AWS = require('aws-sdk');
+const AWS = require('aws-sdk');
 const QUEUE_URL='https://sqs.us-east-1.amazonaws.com/889429743747/myQueue';
 const yelp = require('yelp-fusion');
 
@@ -37,12 +37,13 @@ function receiveMessages(callback) {
                 var result;
                 text=text+'1. '+response.jsonBody.businesses[0].name+',location at: '+response.jsonBody.businesses[0].location.address1+' ';
                 if (response.jsonBody.businesses[0].location.address2!=null) text=text+response.jsonBody.businesses[0].location.address2+' ';
-                text=text+'\n';
+                text=text+',category is:'+response.jsonBody.businesses[0].categories[0].title +',price:'+response.jsonBody.businesses[0].price+'\n';
                 text=text+'2. '+response.jsonBody.businesses[1].name+',location at: '+response.jsonBody.businesses[1].location.address1+' ';
                 if (response.jsonBody.businesses[1].location.address2!=null) text=text+response.jsonBody.businesses[1].location.address2+' ';
-                text=text+'\n';
+                text=text+',category is:'+response.jsonBody.businesses[1].categories[0].title +',price:'+response.jsonBody.businesses[1].price+'\n';
                 text=text+'3. '+response.jsonBody.businesses[2].name+',location at: '+response.jsonBody.businesses[2].location.address1+' ';
                 if (response.jsonBody.businesses[2].location.address2!=null) text=text+response.jsonBody.businesses[2].location.address2+' ';
+                text=text+',category is:'+response.jsonBody.businesses[2].categories[0].title +',price:'+response.jsonBody.businesses[2].price;
                 text=text+"\nEnjor your meal!"
                 sendTextMessage(text,phone);
             }).catch(e => {
@@ -67,7 +68,6 @@ function receiveMessages(callback) {
 }
 
 function sendTextMessage(text,phone){
-    console.log(text);
     var sns = new AWS.SNS();
     const params = {
         PhoneNumber: '+1 '+phone,
@@ -75,10 +75,8 @@ function sendTextMessage(text,phone){
     };
     sns.publish(params, function(err, data){
 
-        console.log('sending message to ' + params.PhoneNumber.toString() );
-
         if (err) console.log(err, err.stack);
-        else console.log("Send a messasge");
+        else console.log('sent a message to ' + params.PhoneNumber.toString() );
 
     });
 
