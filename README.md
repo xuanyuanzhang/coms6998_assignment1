@@ -93,6 +93,9 @@ var apigClient = apigClientFactory.newClient({
     apiKey: 'API_KEY'
 }); 
 ```
-
+# For Assignment 2
+dining.js: This is the Lambda function LF1.
+diningfulfillment.js: This is the Lambda function LF1fulfillment.
+dining2.js: This is the Lambda function LF2.
 
 
