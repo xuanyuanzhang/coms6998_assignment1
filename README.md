@@ -73,7 +73,7 @@ apigClient.methodName(params, body, additionalParams)
     });
 ```
 
-#Using AWS IAM for authorization
+# Using AWS IAM for authorization
 To initialize the SDK with AWS Credentials use the code below. Note, if you use credentials all requests to the API will be signed. This means you will have to set the appropiate CORS accept-* headers for each request.
 
 ```
@@ -85,7 +85,7 @@ var apigClient = apigClientFactory.newClient({
 });
 ```
 
-#Using API Keys
+# Using API Keys
 To use an API Key with the client SDK you can pass the key as a parameter to the Factory object. Note, if you use an apiKey it will be attached as the header 'x-api-key' to all requests to the API will be signed. This means you will have to set the appropiate CORS accept-* headers for each request.
 
 ```
@@ -95,7 +95,9 @@ var apigClient = apigClientFactory.newClient({
 ```
 # For Assignment 2
 dining.js: This is the Lambda function LF1.
+
 diningfulfillment.js: This is the Lambda function LF1fulfillment.
+
 dining2.js: This is the Lambda function LF2.
 
 
